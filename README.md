@@ -6,7 +6,7 @@ By default, No Man's Sky VR screenshots appear to be stretched horizontally. By 
  >![Asset pic](https://i.imgur.com/zLtkypk.png)
 
 ## User Guide
-For usage instructions and GUI explanation [check out the user guide in the wiki](https://github.com/NoahOrtega/NMSVRscreenshotfix/wiki)
+For usage instructions and GUI explanation [check out the user guide in the wiki](https://github.com/NoahOrtega/NMSVRscreenshotfix-GUI-Version/wiki)
 
 ## Examples (Before and After)
 
