@@ -16,6 +16,7 @@ Before             |  After
 ![Ex A](https://i.imgur.com/H6TmYYk.jpg)  |  ![Ex A fixed](https://i.imgur.com/oTbSswC.jpg)
 ![Ex B](https://i.imgur.com/kxaAre3.jpg)  |  ![Ex B fixed](https://i.imgur.com/Hv6lXiy.jpg)
 ![Ex D](https://i.imgur.com/khB9WTE.jpg)  |  ![Ex D fixed](https://i.imgur.com/W92gAI7.jpg)
+>[All screenshots taken by highlighnotes](https://www.nexusmods.com/nomanssky/mods/1563)
 
 ## Original No Frills Program
 If you don't need the custom settings, and would like to run the operation quickly and simply on your screenshots consider using the the original version. [check it out here](https://github.com/NoahOrtega/NMSVRscreenshotfix) 
