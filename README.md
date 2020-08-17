@@ -3,7 +3,6 @@ By default, No Man's Sky VR screenshots appear to be stretched horizontally. By 
 
 ## Download
  The executable jar can be downloaded in the assets of the most recent release: [found here](https://github.com/NoahOrtega/NMSVRscreenshotfix-GUI-Version/releases/tag/v1.0) 
- >![Asset pic](https://i.imgur.com/zLtkypk.png)
 
 ## User Guide
 For usage instructions and GUI explanation [check out the user guide in the wiki](https://github.com/NoahOrtega/NMSVRscreenshotfix-GUI-Version/wiki)
