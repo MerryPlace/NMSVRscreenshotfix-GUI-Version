@@ -7,8 +7,7 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.awt.Graphics2D;
 import static java.lang.Character.isLetterOrDigit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  * Iterates through every image in the executable's folder and if applicable, 
@@ -115,23 +114,32 @@ class LogicController {
         for (int fileIndex = 0; fileIndex < totalFiles && !canceled; fileIndex++) {
             curFile = folderContents[fileIndex];
             if (!folderContents[fileIndex].isDirectory() && isImage(curFile.getPath())) {
-                System.out.println(fileIndex);
+                System.out.println(">file name: " + curFile.getName());
                 //System.out.println(curFile.getPath());
                 try {
                     curImage = ImageIO.read(folderContents[fileIndex]);
+
                     if (shouldResize(curImage.getWidth(), curImage.getHeight())) {
+
                         squish(curFile);
                         converted++;
+
                     }
-                } 
+                }
                 catch (IOException ex) {
                     System.err.println(">> Caught IOException on '" + curFile.getPath() + "':\n  " + ex.getMessage());
                 }
+                catch (NullPointerException ex) {
+                    System.out.println(">> she isn't an image, that's for sure. " + ex);
+                    myUI.corruptImage(curFile.getName());
+                }
+                
             }
             myUI.updateProgressBar((fileIndex + 1)*100/totalFiles);
         }
         if(canceled) {myUI.cancelPopup(converted);}
         else {myUI.successPopup(converted);}
+        
         
         isExecuting = false;
         System.out.println("finished");
@@ -159,7 +167,6 @@ class LogicController {
         
         int fileDotIndex = originalFile.getName().lastIndexOf('.');
         String formatName = originalFile.getName().substring(fileDotIndex + 1);
-        
         File newFile = new File(resultPath +"/"+ originalFile.getName());
         if(shouldRename) {
             if (renameNewFile) {
@@ -169,10 +176,17 @@ class LogicController {
                 originalFile.renameTo(modifyFilePath(sourcePath,originalFile.getName()));
             }
         }
-        // write to output file
-        ImageIO.write(outputImage, formatName, newFile);
-        
-        System.out.println(">> Converted");
+
+        try {
+            // write to output file
+            ImageIO.write(outputImage, formatName, newFile);
+            System.out.println(">> Converted");
+        }
+        catch(Exception ex) {
+            myUI.errorWriting();
+            System.err.print(">> Error reading from result folder " + ex.getClass());
+            canceled = true;
+        }
     }
 
     public void cancelExecution() {
