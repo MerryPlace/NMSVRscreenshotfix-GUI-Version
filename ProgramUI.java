@@ -266,7 +266,7 @@ public class ProgramUI extends javax.swing.JFrame {
             progressBar.setValue(0);
         } else {
             JOptionPane.showMessageDialog(this,
-            ("No images were found in the source folder."),"Error: No images found",
+            ("No unconverted images were found in the source folder."),"Error: No images found",
             JOptionPane.WARNING_MESSAGE);
             progressBar.setValue(0);
         }
@@ -277,6 +277,20 @@ public class ProgramUI extends javax.swing.JFrame {
             "Converted " + value + " files before canceling.","Canceled",
             JOptionPane.ERROR_MESSAGE);
     }
+    
+    public void corruptImage(String fileName) {
+        JOptionPane.showMessageDialog(this,
+            "The image file '" + fileName + "' cannot be read and may be corrupt.","Corrupt File",
+            JOptionPane.ERROR_MESSAGE);
+    }
+    
+    public void errorWriting() {
+        JOptionPane.showMessageDialog(this,
+            "There was a problem writing to the destination folder. Canceling operation.","Write Problem: Aborting",
+            JOptionPane.ERROR_MESSAGE);
+    }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea behaviorTextArea;
