@@ -150,12 +150,13 @@ public class ProgramUI extends javax.swing.JFrame {
                         .addGap(23, 23, 23)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(17, 17, 17)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(resultFolderButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(1, 1, 1)
-                        .addComponent(resultFolderField, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)))
+                        .addComponent(resultFolderField, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(resultFolderButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -186,14 +187,13 @@ public class ProgramUI extends javax.swing.JFrame {
     private void executeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_executeButtonActionPerformed
         if(controller.isExecuting) {
             controller.cancelExecution();
-            toggleUI();
+
         }
         else {
             controller.sourcePath = sourceFolderField.getText();
             controller.resultPath = resultFolderField.getText();
             if (controller.hasValidDirectoryPaths()) {
                 controller.execute();
-                toggleUI();
             }
             else {
                 JOptionPane.showMessageDialog(this,
@@ -242,7 +242,7 @@ public class ProgramUI extends javax.swing.JFrame {
         behaviorTextArea.setText(controller.getCurrentBehavior());
     }//GEN-LAST:event_sourceFolderFieldActionPerformed
 
-    private void toggleUI() {
+    public void toggleUI() {
         boolean shouldEnable = !controller.isExecuting;
         settingsButton.setEnabled(shouldEnable);
         sourceFolderField.setEnabled(shouldEnable);
@@ -259,10 +259,17 @@ public class ProgramUI extends javax.swing.JFrame {
     }
     
     public void successPopup(int value) {
-        JOptionPane.showMessageDialog(this,
-            ("Converted " + value + " images successfully."),"Complete",
+        if(value != 0) {
+            JOptionPane.showMessageDialog(this,
+            ("All " + value + " images were converted successfully."),"Complete",
             JOptionPane.INFORMATION_MESSAGE);
-        progressBar.setValue(0);
+            progressBar.setValue(0);
+        } else {
+            JOptionPane.showMessageDialog(this,
+            ("No images were found in the source folder."),"Error: No images found",
+            JOptionPane.WARNING_MESSAGE);
+            progressBar.setValue(0);
+        }
     }
     
     public void cancelPopup(int value) {

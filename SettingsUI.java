@@ -254,7 +254,7 @@ public class SettingsUI extends javax.swing.JDialog {
         }
         else {
             JOptionPane.showMessageDialog(this,
-                    "Text can only contain alphanumeric characters, '_' and '-'.","Error",
+                    "Text must contain only alphanumeric characters, '_', and '-'.","Error",
                     JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_ConfirmButtonActionPerformed
