@@ -51,6 +51,8 @@ public class ProgramUI extends javax.swing.JFrame {
         jLabel3.setText("Result Folder:");
 
         sourceFolderField.setText("err");
+        sourceFolderField.setMaximumSize(new java.awt.Dimension(2147483647, 32));
+        sourceFolderField.setMinimumSize(new java.awt.Dimension(14, 32));
         sourceFolderField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 sourceFolderFieldActionPerformed(evt);
@@ -68,6 +70,8 @@ public class ProgramUI extends javax.swing.JFrame {
         });
 
         resultFolderField.setText("err");
+        resultFolderField.setMaximumSize(new java.awt.Dimension(2147483647, 32));
+        resultFolderField.setMinimumSize(new java.awt.Dimension(14, 32));
         resultFolderField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 resultFolderFieldActionPerformed(evt);
@@ -77,6 +81,7 @@ public class ProgramUI extends javax.swing.JFrame {
         resultFolderButton.setText("...");
         resultFolderButton.setMaximumSize(new java.awt.Dimension(22, 22));
         resultFolderButton.setMinimumSize(new java.awt.Dimension(22, 22));
+        resultFolderButton.setPreferredSize(new java.awt.Dimension(32, 32));
         resultFolderButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 resultFolderButtonActionPerformed(evt);
@@ -109,42 +114,48 @@ public class ProgramUI extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(executeButton)
                     .addComponent(jLabel3)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)
-                    .addComponent(settingsButton)
-                    .addComponent(sourceFolderField)
-                    .addComponent(resultFolderField)
-                    .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(settingsButton))
+                    .addComponent(resultFolderField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(sourceFolderField, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(sourceFolderButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(resultFolderButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(273, 273, 273))
+                    .addComponent(sourceFolderButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(resultFolderButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(256, 256, 256))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(sourceFolderButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(24, 24, 24)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(sourceFolderField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(sourceFolderButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(sourceFolderField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(17, 17, 17)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(resultFolderButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(resultFolderField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(resultFolderField, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -176,7 +187,7 @@ public class ProgramUI extends javax.swing.JFrame {
         if(controller.isExecuting) {
             controller.cancelExecution();
             toggleUI();
-        } 
+        }
         else {
             controller.sourcePath = sourceFolderField.getText();
             controller.resultPath = resultFolderField.getText();
@@ -192,6 +203,45 @@ public class ProgramUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_executeButtonActionPerformed
 
+    private void settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsButtonActionPerformed
+        new SettingsUI(this,true).setVisible(true);
+        behaviorTextArea.setText(controller.getCurrentBehavior());
+    }//GEN-LAST:event_settingsButtonActionPerformed
+
+    private void resultFolderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultFolderButtonActionPerformed
+        JFileChooser jfc = new JFileChooser();
+        jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int optionCode = jfc.showSaveDialog(null);
+
+        if (optionCode == JFileChooser.APPROVE_OPTION) {
+            controller.resultPath = jfc.getSelectedFile().getAbsolutePath();
+            resultFolderField.setText(controller.resultPath);
+            behaviorTextArea.setText(controller.getCurrentBehavior());
+        }
+    }//GEN-LAST:event_resultFolderButtonActionPerformed
+
+    private void resultFolderFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultFolderFieldActionPerformed
+        controller.resultPath = resultFolderField.getText();
+        behaviorTextArea.setText(controller.getCurrentBehavior());
+    }//GEN-LAST:event_resultFolderFieldActionPerformed
+
+    private void sourceFolderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sourceFolderButtonActionPerformed
+        JFileChooser jfc = new JFileChooser();
+        jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int optionCode = jfc.showSaveDialog(null);
+
+        if (optionCode == JFileChooser.APPROVE_OPTION) {
+            controller.sourcePath = jfc.getSelectedFile().getAbsolutePath();
+            sourceFolderField.setText(controller.sourcePath);
+            behaviorTextArea.setText(controller.getCurrentBehavior());
+        }
+    }//GEN-LAST:event_sourceFolderButtonActionPerformed
+
+    private void sourceFolderFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sourceFolderFieldActionPerformed
+        controller.sourcePath = sourceFolderField.getText();
+        behaviorTextArea.setText(controller.getCurrentBehavior());
+    }//GEN-LAST:event_sourceFolderFieldActionPerformed
+
     private void toggleUI() {
         boolean shouldEnable = !controller.isExecuting;
         settingsButton.setEnabled(shouldEnable);
@@ -204,45 +254,6 @@ public class ProgramUI extends javax.swing.JFrame {
         else {executeButton.setText("execute");}
     }
     
-    private void settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsButtonActionPerformed
-        new SettingsUI(this,true).setVisible(true);
-        behaviorTextArea.setText(controller.getCurrentBehavior());
-    }//GEN-LAST:event_settingsButtonActionPerformed
-
-    private void sourceFolderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sourceFolderButtonActionPerformed
-        JFileChooser jfc = new JFileChooser(); 
-        jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); 
-        int optionCode = jfc.showSaveDialog(null); 
-        
-        if (optionCode == JFileChooser.APPROVE_OPTION) {
-            controller.sourcePath = jfc.getSelectedFile().getAbsolutePath();
-            sourceFolderField.setText(controller.sourcePath);
-            behaviorTextArea.setText(controller.getCurrentBehavior());
-        }
-    }//GEN-LAST:event_sourceFolderButtonActionPerformed
-
-    private void resultFolderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultFolderButtonActionPerformed
-        JFileChooser jfc = new JFileChooser(); 
-        jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); 
-        int optionCode = jfc.showSaveDialog(null); 
-        
-        if (optionCode == JFileChooser.APPROVE_OPTION) {
-            controller.resultPath = jfc.getSelectedFile().getAbsolutePath();
-            resultFolderField.setText(controller.resultPath);
-            behaviorTextArea.setText(controller.getCurrentBehavior());
-        }
-    }//GEN-LAST:event_resultFolderButtonActionPerformed
-
-    private void sourceFolderFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sourceFolderFieldActionPerformed
-        controller.sourcePath = sourceFolderField.getText();
-        behaviorTextArea.setText(controller.getCurrentBehavior());
-    }//GEN-LAST:event_sourceFolderFieldActionPerformed
-
-    private void resultFolderFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultFolderFieldActionPerformed
-        controller.resultPath = resultFolderField.getText();
-        behaviorTextArea.setText(controller.getCurrentBehavior());
-    }//GEN-LAST:event_resultFolderFieldActionPerformed
-
     public void updateProgressBar(int value) {
         progressBar.setValue(value);
     }
