@@ -109,7 +109,8 @@ class LogicController {
         File[] folderContents = sourceFolder.listFiles();
         totalFiles = folderContents.length;
         File curFile;
-
+        
+        myUI.toggleUI();
         
         for (int fileIndex = 0; fileIndex < totalFiles && !canceled; fileIndex++) {
             curFile = folderContents[fileIndex];
@@ -134,6 +135,7 @@ class LogicController {
         
         isExecuting = false;
         System.out.println("finished");
+        myUI.toggleUI();
     }
     
      /**
@@ -269,6 +271,10 @@ class LogicController {
     }
     
     public boolean isValidAddition(String phrase) {
+        
+        if(phrase.length() == 0) {
+            return false;
+        }
         
         for (int charIndex = 0; charIndex < phrase.length(); charIndex++) {
             char curChar = phrase.charAt(charIndex);
