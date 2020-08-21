@@ -4,7 +4,6 @@ package nmsvrscreenshotfix;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-
 public class ProgramUI extends javax.swing.JFrame {
 
     LogicController controller = LogicController.getInstance();
@@ -278,17 +277,37 @@ public class ProgramUI extends javax.swing.JFrame {
             JOptionPane.ERROR_MESSAGE);
     }
     
-    public void corruptImage(String fileName) {
+    public void errorCorruptImage(String fileName) {
         JOptionPane.showMessageDialog(this,
-            "The image file '" + fileName + "' cannot be read and may be corrupt.","Corrupt File",
-            JOptionPane.ERROR_MESSAGE);
+            "The image file '" + fileName + "' cannot be read and may be corrupt.",
+            "Error: Corrupt File",JOptionPane.ERROR_MESSAGE);
     }
     
     public void errorWriting() {
         JOptionPane.showMessageDialog(this,
-            "There was a problem writing to the destination folder. Canceling operation.","Write Problem: Aborting",
-            JOptionPane.ERROR_MESSAGE);
+            "There was a problem writing to the destination folder. Canceling operation.",
+            "Write Error: Aborting",JOptionPane.ERROR_MESSAGE);
     }
+    
+    
+    public void warningEmptyText() {
+        JOptionPane.showMessageDialog(this,
+            "The 'Text to be added' field cannot be left empty.",
+            "Text left empty", JOptionPane.WARNING_MESSAGE);
+    }
+    
+    public void warningExceededTextLimit() {
+        JOptionPane.showMessageDialog(this,
+            "Added text cannot exceed "+controller.MAX_ADD_TEXT_LENGTH+" characters.",
+            "Text too long", JOptionPane.WARNING_MESSAGE);
+    }
+    
+    public void warningInvalidText(char invalidChar) {
+        JOptionPane.showMessageDialog(this,
+            "Text must contain only alphanumeric characters, '_', and '-'.\nInvalid character: '"+invalidChar+"'.",
+            "Invalid character in the text", JOptionPane.WARNING_MESSAGE);
+    }
+    
     
     
 

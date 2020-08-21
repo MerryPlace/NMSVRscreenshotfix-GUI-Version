@@ -35,8 +35,10 @@ class LogicController {
  
     public boolean shouldRename = true;
     public boolean renameNewFile = true;
-    public String addToFile = "_fix";
+    public String addTextToFileName = "_fix";
     public boolean addAsPrefix = false;
+    
+    int MAX_ADD_TEXT_LENGTH = 50;
     
     ProgramUI myUI;
     
@@ -120,18 +122,15 @@ class LogicController {
                     curImage = ImageIO.read(folderContents[fileIndex]);
 
                     if (shouldResize(curImage.getWidth(), curImage.getHeight())) {
-
                         squish(curFile);
-                        converted++;
-
                     }
                 }
                 catch (IOException ex) {
                     System.err.println(">> Caught IOException on '" + curFile.getPath() + "':\n  " + ex.getMessage());
                 }
                 catch (NullPointerException ex) {
-                    System.out.println(">> she isn't an image, that's for sure. " + ex);
-                    myUI.corruptImage(curFile.getName());
+                    System.out.println(">> ImageIO.read returned null (likely corrupt): " + ex);
+                    myUI.errorCorruptImage(curFile.getName());
                 }
                 
             }
@@ -180,6 +179,7 @@ class LogicController {
         try {
             // write to output file
             ImageIO.write(outputImage, formatName, newFile);
+            converted++;
             System.out.println(">> Converted");
         }
         catch(Exception ex) {
@@ -210,7 +210,7 @@ class LogicController {
             else {
                 behavior += "• Adding suffix ";
             }
-            behavior += "\""+addToFile+"\" to ";
+            behavior += "\""+addTextToFileName+"\" to ";
             if(renameNewFile) {
                 behavior += "converted image";
             }
@@ -229,7 +229,7 @@ class LogicController {
         String name = oldName.substring(0, dotIndex);
         String ext = oldName.substring(dotIndex);
         
-        return addAsPrefix ? (addToFile+name+ext) : (name+addToFile+ext);
+        return addAsPrefix ? (addTextToFileName+name+ext) : (name+addTextToFileName+ext);
     }
     
     private String getExampleRename() {
@@ -280,13 +280,16 @@ class LogicController {
      * @return the final output path
      */
     public String generateOutputPath(String inputPath, int dotIndex) {
-
-        return inputPath.substring(0, dotIndex) + addToFile + inputPath.substring(dotIndex);
+        return inputPath.substring(0, dotIndex) + addTextToFileName + inputPath.substring(dotIndex);
     }
     
-    public boolean isValidAddition(String phrase) {
-        
+    public boolean isValidTextAddition(String phrase) {
         if(phrase.length() == 0) {
+            myUI.warningEmptyText();
+            return false;
+        }
+        if(phrase.length() > MAX_ADD_TEXT_LENGTH) {
+            myUI.warningExceededTextLimit();
             return false;
         }
         
@@ -294,6 +297,7 @@ class LogicController {
             char curChar = phrase.charAt(charIndex);
             if(!isLetterOrDigit(curChar)) {
                 if(curChar != '_' && curChar != '-') {
+                    myUI.warningInvalidText(curChar);
                     return false;
                 }
             }

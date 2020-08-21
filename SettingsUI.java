@@ -9,10 +9,6 @@ import java.awt.Component;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-/**
- *
- * @author midli
- */
 public class SettingsUI extends javax.swing.JDialog {
 
     LogicController controller = LogicController.getInstance();
@@ -26,7 +22,7 @@ public class SettingsUI extends javax.swing.JDialog {
         else {dontRenameButton.setSelected(true);}
         if(controller.renameNewFile) {renameNewButton.setSelected(true);}
         else {renameOriginalButton.setSelected(true);}
-        addTextField.setText(controller.addToFile);
+        addTextField.setText(controller.addTextToFileName);
         if(controller.addAsPrefix) {prefixButton.setSelected(true);}
         else {suffixButton.setSelected(true);}
         
@@ -248,14 +244,9 @@ public class SettingsUI extends javax.swing.JDialog {
     }//GEN-LAST:event_renameButtonActionPerformed
 
     private void ConfirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfirmButtonActionPerformed
-        if (controller.isValidAddition(addTextField.getText())) {
-            controller.addToFile = addTextField.getText();
+        if (controller.isValidTextAddition(addTextField.getText())) {
+            controller.addTextToFileName = addTextField.getText();
             this.setVisible(false);
-        }
-        else {
-            JOptionPane.showMessageDialog(this,
-                    "Text must contain only alphanumeric characters, '_', and '-'.","Error",
-                    JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_ConfirmButtonActionPerformed
 
@@ -302,7 +293,6 @@ public class SettingsUI extends javax.swing.JDialog {
             component.setEnabled(true);
         }
     }
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ConfirmButton;
