@@ -244,8 +244,12 @@ public class SettingsUI extends javax.swing.JDialog {
     }//GEN-LAST:event_renameButtonActionPerformed
 
     private void ConfirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfirmButtonActionPerformed
-        if (controller.isValidTextAddition(addTextField.getText())) {
-            controller.addTextToFileName = addTextField.getText();
+        if(renameButton.isSelected()) {
+            if (controller.isValidTextAddition(addTextField.getText())) {
+                controller.addTextToFileName = addTextField.getText();
+                this.setVisible(false);
+            }
+        } else {
             this.setVisible(false);
         }
     }//GEN-LAST:event_ConfirmButtonActionPerformed
