@@ -32,6 +32,8 @@ class LogicController {
     private boolean isExecuting = false;
     private boolean canceled = false;
     
+    private boolean triggerFileErrorPopups = true;
+    
     // File handling variables 
     private int totalFiles;
     private int filesConverted;
@@ -131,6 +133,10 @@ class LogicController {
         //disables UI
         myUI.toggleUI();
         
+        if(!shouldRename && (sourcePath.equals(resultPath))) {
+            myUI.warningReplacingFiles();
+        }
+        
         for (int fileIndex = 0; fileIndex < totalFiles && !canceled; fileIndex++) {
             curFile = folderContents[fileIndex];
             if (!folderContents[fileIndex].isDirectory() && isImage(curFile.getPath())) {
@@ -143,11 +149,16 @@ class LogicController {
                     }
                 }
                 catch (IOException ex) {
+                    if(triggerFileErrorPopups){
+                        myUI.errorReading(curFile.getName());
+                    }
                     System.err.println(">> Caught IOException on '" + curFile.getPath() + "':\n  " + ex.getMessage());
                 }
                 catch (NullPointerException ex) {
+                    if(triggerFileErrorPopups){
+                        myUI.errorCorruptImage(curFile.getName());
+                    }
                     System.out.println(">> ImageIO.read returned null (likely corrupt): " + ex);
-                    myUI.errorCorruptImage(curFile.getName());
                 }
             }
             myUI.updateProgressBar((fileIndex + 1)*100/totalFiles);
@@ -155,10 +166,12 @@ class LogicController {
         if(canceled) {
             myUI.cancelPopup(filesConverted);
             canceled = false;
+            myUI.updateProgressBar(0);
         } else {
             myUI.completePopup(filesConverted);
         }
         
+        triggerFileErrorPopups = true;
         isExecuting = false;
         myUI.toggleUI();
         System.out.println("Finished Execution");
@@ -202,9 +215,10 @@ class LogicController {
             System.out.println(">> Converted");
         }
         catch(Exception ex) {
-            myUI.errorWriting();
+            if(triggerFileErrorPopups){
+                myUI.errorWriting(newFile.getName());
+            }
             System.err.print(">> Error writing to result folder " + ex.getClass());
-            canceled = true;
         }
     }
     
@@ -368,5 +382,19 @@ class LogicController {
      */
     public boolean hasValidDirectoryPaths() {
         return((new File(sourcePath)).isDirectory() && (new File(resultPath)).isDirectory());
+    }
+    
+    /**
+     * File errors during execution trigger warning popups in ProgramUI. The user makes a choice
+     * about how the error should be handled via this method.
+     * @see ProgramUI.fileErrorOptions for the text options these indexes correspond to
+     * @param userChoice the index of the choice the user selected
+     */
+    public void userErrorResponse(int userChoice) {
+        if (userChoice == 1) {
+            triggerFileErrorPopups = false;
+        } else if (userChoice == 2) {
+            canceled = true;
+        }
     }
 }
