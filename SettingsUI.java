@@ -1,23 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package nmsvrscreenshotfix;
 
 import java.awt.Component;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+/**
+ * Handles visual aspects of Settings window.
+ * @author Noah Ortega
+ */
 public class SettingsUI extends javax.swing.JDialog {
 
     LogicController controller = LogicController.getInstance();
     
-    
     public SettingsUI(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+        //set current settings visually
         if(controller.shouldRename) {renameButton.setSelected(true);}
         else {dontRenameButton.setSelected(true);}
         if(controller.renameNewFile) {renameNewButton.setSelected(true);}
@@ -26,8 +24,7 @@ public class SettingsUI extends javax.swing.JDialog {
         if(controller.addAsPrefix) {prefixButton.setSelected(true);}
         else {suffixButton.setSelected(true);}
         
-        if(dontRenameButton.isSelected()) {disableRenamePanel(newFileSettings);}
-        
+        if(dontRenameButton.isSelected()) {toggleRenamePanel(newFileSettings);} 
     }
 
     /**
@@ -232,17 +229,17 @@ public class SettingsUI extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void dontRenameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dontRenameButtonActionPerformed
-        disableRenamePanel(newFileSettings);
         controller.shouldRename = false;
+        toggleRenamePanel(newFileSettings);
     }//GEN-LAST:event_dontRenameButtonActionPerformed
-
+    
     private void renameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_renameButtonActionPerformed
-        enableRenamePanel(newFileSettings);
         controller.shouldRename = true;
+        toggleRenamePanel(newFileSettings);
     }//GEN-LAST:event_renameButtonActionPerformed
-
+    
     private void ConfirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfirmButtonActionPerformed
         if(renameButton.isSelected()) {
             if (controller.isValidTextAddition(addTextField.getText())) {
@@ -265,36 +262,29 @@ public class SettingsUI extends javax.swing.JDialog {
     private void addTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTextFieldActionPerformed
         // no action
     }//GEN-LAST:event_addTextFieldActionPerformed
-
+    
     private void renameOriginalButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_renameOriginalButtonActionPerformed
         controller.renameNewFile = false;
     }//GEN-LAST:event_renameOriginalButtonActionPerformed
-
+    
     private void suffixButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_suffixButtonActionPerformed
         controller.addAsPrefix = false;
     }//GEN-LAST:event_suffixButtonActionPerformed
     
-    private void disableRenamePanel(JPanel panel){
-        panel.setEnabled(false);
+    /**
+     * Recursive function for enabling/disabling all contents of a JPanel.
+     * @param panel the JPanel to be enabled/disabled
+     */
+    private void toggleRenamePanel(JPanel panel) {
+        boolean shouldEnable = renameButton.isSelected();
+        panel.setEnabled(shouldEnable);
         Component[] components = panel.getComponents();
         
         for (Component component : components) {
             if (component instanceof JPanel) {
-                disableRenamePanel((JPanel) component);
+                toggleRenamePanel((JPanel) component);
             }
-            component.setEnabled(false);
-        }
-    }
-    
-    private void enableRenamePanel(JPanel panel){
-        panel.setEnabled(true);
-        Component[] components = panel.getComponents();
-        
-        for (Component component : components) {
-            if (component instanceof JPanel) {
-                disableRenamePanel((JPanel) component);
-            }
-            component.setEnabled(true);
+            component.setEnabled(shouldEnable);
         }
     }
 

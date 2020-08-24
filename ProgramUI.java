@@ -4,6 +4,10 @@ package nmsvrscreenshotfix;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+/**
+ * Handles visual aspects of the main window as well as all program popups.
+ * @author Noah Ortega
+ */
 public class ProgramUI extends javax.swing.JFrame {
 
     LogicController controller = LogicController.getInstance();
@@ -12,7 +16,7 @@ public class ProgramUI extends javax.swing.JFrame {
         initComponents();
         resultFolderField.setText(controller.resultPath);
         sourceFolderField.setText(controller.sourcePath);
-        behaviorTextArea.setText(controller.getCurrentBehavior());
+        behaviorTextArea.setText(controller.getCurrentBehaviorString());
     }
     
     /**
@@ -184,9 +188,8 @@ public class ProgramUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void executeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_executeButtonActionPerformed
-        if(controller.isExecuting) {
+        if(controller.getIsExecuting()) {
             controller.cancelExecution();
-
         }
         else {
             controller.sourcePath = sourceFolderField.getText();
@@ -195,16 +198,14 @@ public class ProgramUI extends javax.swing.JFrame {
                 controller.execute();
             }
             else {
-                JOptionPane.showMessageDialog(this,
-                    "One of the paths appears to not be a valid folder","Error",
-                    JOptionPane.WARNING_MESSAGE);
+                errorInvalidPath();
             }
         }
     }//GEN-LAST:event_executeButtonActionPerformed
 
     private void settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsButtonActionPerformed
         new SettingsUI(this,true).setVisible(true);
-        behaviorTextArea.setText(controller.getCurrentBehavior());
+        behaviorTextArea.setText(controller.getCurrentBehaviorString());
     }//GEN-LAST:event_settingsButtonActionPerformed
 
     private void resultFolderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultFolderButtonActionPerformed
@@ -215,13 +216,13 @@ public class ProgramUI extends javax.swing.JFrame {
         if (optionCode == JFileChooser.APPROVE_OPTION) {
             controller.resultPath = jfc.getSelectedFile().getAbsolutePath();
             resultFolderField.setText(controller.resultPath);
-            behaviorTextArea.setText(controller.getCurrentBehavior());
+            behaviorTextArea.setText(controller.getCurrentBehaviorString());
         }
     }//GEN-LAST:event_resultFolderButtonActionPerformed
 
     private void resultFolderFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultFolderFieldActionPerformed
         controller.resultPath = resultFolderField.getText();
-        behaviorTextArea.setText(controller.getCurrentBehavior());
+        behaviorTextArea.setText(controller.getCurrentBehaviorString());
     }//GEN-LAST:event_resultFolderFieldActionPerformed
 
     private void sourceFolderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sourceFolderButtonActionPerformed
@@ -232,63 +233,105 @@ public class ProgramUI extends javax.swing.JFrame {
         if (optionCode == JFileChooser.APPROVE_OPTION) {
             controller.sourcePath = jfc.getSelectedFile().getAbsolutePath();
             sourceFolderField.setText(controller.sourcePath);
-            behaviorTextArea.setText(controller.getCurrentBehavior());
+            behaviorTextArea.setText(controller.getCurrentBehaviorString());
         }
     }//GEN-LAST:event_sourceFolderButtonActionPerformed
 
     private void sourceFolderFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sourceFolderFieldActionPerformed
         controller.sourcePath = sourceFolderField.getText();
-        behaviorTextArea.setText(controller.getCurrentBehavior());
+        behaviorTextArea.setText(controller.getCurrentBehaviorString());
     }//GEN-LAST:event_sourceFolderFieldActionPerformed
-
+    
+    /**
+     * enables or disables all interactive UI elements except for the execute/cancel button
+     * depending on if the program is executing. prevents editing settings while executing.
+     */
     public void toggleUI() {
-        boolean shouldEnable = !controller.isExecuting;
+        boolean shouldEnable = !controller.getIsExecuting();
         settingsButton.setEnabled(shouldEnable);
         sourceFolderField.setEnabled(shouldEnable);
         sourceFolderButton.setEnabled(shouldEnable);
         resultFolderField.setEnabled(shouldEnable);
         resultFolderButton.setEnabled(shouldEnable);
         
-        if(controller.isExecuting) {executeButton.setText("cancel");}
-        else {executeButton.setText("execute");}
+        if(controller.getIsExecuting()) {
+            executeButton.setText("cancel");
+        } else {
+            executeButton.setText("execute");
+        }
     }
     
+    /**
+     * Allows the logic controller to change the value of the progress bar
+     * @param value percentage the progress bar should be filled. (max 100)
+     */
     public void updateProgressBar(int value) {
         progressBar.setValue(value);
     }
     
-    public void successPopup(int value) {
-        if(value != 0) {
+    /**
+     * Popup triggered when execution is completed. If no files were converted the
+     * user is given a warning popup instead of a success popup.
+     * @param converted number of converted files during execution
+     */
+    public void completePopup(int converted) {
+        if(converted != 0) {
             JOptionPane.showMessageDialog(this,
-            ("All " + value + " images were converted successfully."),"Complete",
-            JOptionPane.INFORMATION_MESSAGE);
+            ("All " + converted + " images were converted successfully."),
+            "Complete", JOptionPane.INFORMATION_MESSAGE);
             progressBar.setValue(0);
         } else {
             JOptionPane.showMessageDialog(this,
-            ("No unconverted images were found in the source folder."),"Error: No images found",
-            JOptionPane.WARNING_MESSAGE);
+            ("No images were able to be converted from in the source folder."),
+            "Error: No images found", JOptionPane.WARNING_MESSAGE);
             progressBar.setValue(0);
         }
     }
     
-    public void cancelPopup(int value) {
+    /**
+     * Popup triggered if execution is canceled before completion. 
+     * Tells the user how many files were converted before cancellation.
+     * @param converted number of files converted before cancellation
+     */
+    public void cancelPopup(int converted) {
         JOptionPane.showMessageDialog(this,
-            "Converted " + value + " files before canceling.","Canceled",
-            JOptionPane.ERROR_MESSAGE);
+            "Converted " + converted + " files before canceling.",
+            "Canceled", JOptionPane.ERROR_MESSAGE);
     }
     
+    /**
+     * Popup triggers on attempted execution when the source or destination 
+     * folder path is invalid.
+     */
+    public void errorInvalidPath() {
+        JOptionPane.showMessageDialog(this,
+            "One or both of the folder paths do not lead to a valid folder.\n"
+                + "Make sure the source and destination folders you choose exist.",
+            "Error: invalid folder path", JOptionPane.WARNING_MESSAGE);
+    }
+    
+    /**
+     * Popup triggers during execution when an image cannot be read due to corruption.
+     * @param fileName the name of the corrupt image file
+     */
     public void errorCorruptImage(String fileName) {
         JOptionPane.showMessageDialog(this,
             "The image file '" + fileName + "' cannot be read and may be corrupt.",
             "Error: Corrupt File",JOptionPane.ERROR_MESSAGE);
     }
     
+    /**
+     * Popup triggers if an image cannot be written to the destination folder
+     */
     public void errorWriting() {
         JOptionPane.showMessageDialog(this,
             "There was a problem writing to the destination folder. Canceling operation.",
             "Write Error: Aborting",JOptionPane.ERROR_MESSAGE);
     }
     
+    //////////////////////////////////////////////////////////////////////
+    // Settings Menu: text addition issue warning popups
+    /////////////////////////////////////////////////////////////////////
     
     public void warningEmptyText() {
         JOptionPane.showMessageDialog(this,
