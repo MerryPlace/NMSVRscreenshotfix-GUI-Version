@@ -310,7 +310,7 @@ public class ProgramUI extends javax.swing.JFrame {
     public void warningReplacingFiles(){
         int choice = JOptionPane.showOptionDialog(this,
             "By continuing you will be replacing your original screenshots. This cannot be undone.\n"
-                + "Please press Cancel and change the behaivor settings if this was not intended.",
+                + "Please press Cancel and change the behavior settings if this was not intended.",
             "Replacing Files",JOptionPane.OK_CANCEL_OPTION,JOptionPane.WARNING_MESSAGE,
             null,null,null);
         if(choice != 0) {
