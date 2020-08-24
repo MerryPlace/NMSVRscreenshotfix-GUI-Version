@@ -2,7 +2,7 @@
 By default, No Man's Sky VR screenshots appear to be stretched horizontally. By changing their aspect ratio to 1:1 (squares) the shots look much more natural. With replacement and renaming options, this program allows you to safely perform this operation on batches of images. GUI + Extended functionality version of the original program.
 
 ## Download
- The executable jar can be downloaded in the assets of the most recent release: [found here](https://github.com/NoahOrtega/NMSVRscreenshotfix-GUI-Version/releases/tag/v1.0) 
+ The executable jar can be downloaded in the assets of the most recent release: [found here](https://github.com/NoahOrtega/NMSVRscreenshotfix-GUI-Version/releases) 
 
 ## User Guide
 For usage instructions and GUI explanation [check out the user guide in the wiki](https://github.com/NoahOrtega/NMSVRscreenshotfix-GUI-Version/wiki)
