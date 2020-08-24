@@ -12,12 +12,15 @@ public class ProgramUI extends javax.swing.JFrame {
 
     LogicController controller = LogicController.getInstance();
     
+    String[] fileErrorOptions = {"Okay","Okay, Skip Remaining Errors","Cancel Execution"};
+    
     public ProgramUI() {
         initComponents();
         resultFolderField.setText(controller.resultPath);
         sourceFolderField.setText(controller.sourcePath);
         behaviorTextArea.setText(controller.getCurrentBehaviorString());
     }
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -277,7 +280,7 @@ public class ProgramUI extends javax.swing.JFrame {
     public void completePopup(int converted) {
         if(converted != 0) {
             JOptionPane.showMessageDialog(this,
-            ("All " + converted + " images were converted successfully."),
+            ("" + converted + " images were converted successfully."),
             "Complete", JOptionPane.INFORMATION_MESSAGE);
             progressBar.setValue(0);
         } else {
@@ -300,6 +303,22 @@ public class ProgramUI extends javax.swing.JFrame {
     }
     
     /**
+     * If the user chooses a settings combination which will result in replacing
+     * their original screenshots this warning will give them one last chance to
+     * change their mind by canceling execution.
+     */
+    public void warningReplacingFiles(){
+        int choice = JOptionPane.showOptionDialog(this,
+            "By continuing you will be replacing your original screenshots. This cannot be undone.\n"
+                + "Please press Cancel and change the behaivor settings if this was not intended.",
+            "Replacing Files",JOptionPane.OK_CANCEL_OPTION,JOptionPane.WARNING_MESSAGE,
+            null,null,null);
+        if(choice != 0) {
+            controller.cancelExecution();
+        }
+    }
+    
+    /**
      * Popup triggers on attempted execution when the source or destination 
      * folder path is invalid.
      */
@@ -312,22 +331,42 @@ public class ProgramUI extends javax.swing.JFrame {
     
     /**
      * Popup triggers during execution when an image cannot be read due to corruption.
+     * Gives user the option to skip remaining errors or cancel the operation.
      * @param fileName the name of the corrupt image file
      */
     public void errorCorruptImage(String fileName) {
-        JOptionPane.showMessageDialog(this,
+        int choice = JOptionPane.showOptionDialog(this,
             "The image file '" + fileName + "' cannot be read and may be corrupt.",
-            "Error: Corrupt File",JOptionPane.ERROR_MESSAGE);
+            "Corrupt File Error: Cancel Execution?",JOptionPane.DEFAULT_OPTION,JOptionPane.ERROR_MESSAGE,
+            null,fileErrorOptions,fileErrorOptions[0]);
+        controller.userErrorResponse(choice);
+    }
+    
+    /**
+     * Popup triggers if an image cannot be read from the source folder.
+     * Gives user the option to skip remaining errors or cancel the operation.
+     */
+    public void errorReading(String fileName) {
+        int choice = JOptionPane.showOptionDialog(this,
+            "There was a problem reading the file, '"+fileName+"' from the source folder.",
+            "Read Error: Cancel Execution?",JOptionPane.DEFAULT_OPTION,JOptionPane.ERROR_MESSAGE,
+            null,fileErrorOptions,fileErrorOptions[0]);
+        controller.userErrorResponse(choice);
     }
     
     /**
      * Popup triggers if an image cannot be written to the destination folder
+     * Gives user the option to skip remaining errors or cancel the operation.
      */
-    public void errorWriting() {
-        JOptionPane.showMessageDialog(this,
-            "There was a problem writing to the destination folder. Canceling operation.",
-            "Write Error: Aborting",JOptionPane.ERROR_MESSAGE);
+    public void errorWriting(String fileName) {
+        int choice = JOptionPane.showOptionDialog(this,
+            "There was a problem writing the file '"+fileName+"' to the destination folder.",
+            "Write Error: Cancel Execution?",JOptionPane.DEFAULT_OPTION,JOptionPane.ERROR_MESSAGE,
+            null,fileErrorOptions,fileErrorOptions[0]);
+        controller.userErrorResponse(choice);
     }
+    
+    
     
     //////////////////////////////////////////////////////////////////////
     // Settings Menu: text addition issue warning popups
